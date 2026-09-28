@@ -24,6 +24,37 @@ A parcel is the concrete example. The underlying concerns are transferable: exte
 | **10+ minutes** | [Technical Evidence Index](docs/evidence/TECHNICAL-EVIDENCE-INDEX.md) + case studies |
 | **Interested in evolution** | [Evidence-backed timeline](docs/evidence/EVOLUTION-TIMELINE.md) |
 
+## 🚀 Quick Start — Run the Public Slice Locally
+
+The repository includes a sanitized, runnable manifest-ingestion vertical slice. No Azure deployment is required to build and execute its tests locally.
+
+**Prerequisite:** .NET 8 SDK
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/lekanibrak-cloud/snowwave-platform.git
+cd snowwave-platform
+
+# 2. Restore and build the public slice
+dotnet restore tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj
+dotnet build tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj --configuration Release --no-restore
+
+# 3. Run the executable verification
+dotnet test tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj --configuration Release --no-build
+```
+
+Expected result:
+
+```text
+Passed! - Failed: 0, Passed: 9, Skipped: 0, Total: 9
+```
+
+The public slice demonstrates durable manifest ingestion, CSV validation, ETag/CAS concurrency handling, retry and stale-work recovery, deterministic row-error handling, and Service Bus publishing semantics.
+
+GitHub Actions independently runs the same build and test path on pull requests and `main`.
+
+> **Evidence boundary:** This runnable slice is intentionally narrower than the complete Snowwave platform. The full application remains private, and the 9 public tests are separate from the broader project's 1,216-test suite.
+
 ---
 
 ## Architecture at a glance
