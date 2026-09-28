@@ -74,6 +74,18 @@ Snowwave's manifest intake commits a durable job ledger and uses Cosmos Change F
 
 **Case study:** [durable manifest ingestion](docs/case-studies/durable-manifest-ingestion.md)
 
+#### Publicly runnable evidence
+
+A sanitized vertical slice of this ingestion path is included in this repository so the implementation can be inspected and executed rather than inferred only from documentation.
+
+- **C# implementation:** [`src/Snowwave.ManifestIngestion/`](src/Snowwave.ManifestIngestion/)
+- **Executable tests:** [`tests/Snowwave.ManifestIngestion.Tests/`](tests/Snowwave.ManifestIngestion.Tests/) — 9 focused tests covering parsing, state transitions, ETag/CAS race handling, retry scheduling, and permanent failure
+- **Infrastructure:** [`infra/manifest-ingestion.bicep`](infra/manifest-ingestion.bicep)
+- **CI verification:** [`.github/workflows/verify-public-slice.yml`](.github/workflows/verify-public-slice.yml)
+- **Source provenance:** [`docs/public-slice/SOURCE-PROVENANCE.md`](docs/public-slice/SOURCE-PROVENANCE.md)
+
+This slice is deliberately narrow. It provides runnable evidence for the manifest-ingestion patterns described here; it does **not** represent the complete Snowwave application or imply that this slice contains the broader project's 1,216-test suite.
+
 ### Additional decisions
 
 ### 1. Recovery means confirmed processing, not “message resent”

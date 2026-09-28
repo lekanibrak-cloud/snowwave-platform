@@ -1,0 +1,36 @@
+name: Verify public manifest-ingestion slice
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dotnet:
+    name: .NET build and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+      - name: Restore
+        run: dotnet restore tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj
+      - name: Build
+        run: dotnet build tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj --configuration Release --no-restore
+      - name: Test
+        run: dotnet test tests/Snowwave.ManifestIngestion.Tests/Snowwave.ManifestIngestion.Tests.csproj --configuration Release --no-build --logger "console;verbosity=normal"
+
+  bicep:
+    name: Bicep compile
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Compile manifest-ingestion module
+        uses: azure/cli@v2
+        with:
+          inlineScript: az bicep build --file infra/manifest-ingestion.bicep --stdout > /dev/null
