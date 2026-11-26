@@ -21,4 +21,4 @@ A useful example came from a false-green deployment. The response was not simply
 
 This is the portfolio's intended meaning of **evidence-driven engineering**: a failure becomes a durable mechanism rather than only a troubleshooting note.
 
-**Current boundary:** individual release features are represented according to their verified state. In particular, the reviewed private README records the catalogue seed/assert release step as merged but not yet green at that snapshot.
+On November 25, 2026, the non-production pipeline verified the running build identity and passed the post-deployment catalogue assertions. End-to-end acceptance of the newer intake pilot remained open. [Release evidence summary](../../docs/evidence/TECHNICAL-EVIDENCE-INDEX.md)

@@ -13,15 +13,20 @@ The public portfolio is intentionally not a source-code mirror. This index gives
 | Deployment truth | [Loaded binary truth](../../evidence/deployment/loaded-binary-truth.sanitized.md) | Runtime identity distinct from configured intent |
 | Delivery engineering | [CI/CD evidence](../../evidence/delivery/ci-cd-evidence.md) | Failures converted into pipeline controls |
 
-## Why selected evidence instead of a code dump?
+## Verification snapshot · November 25, 2026
 
-A mature technical portfolio should make review easier, not make the reviewer reverse-engineer an entire private system.
+| Evidence scope | Passed | Failed | Skipped | What was checked |
+|---|---:|---:|---:|---|
+| Public ingestion slice | 9 | 0 | 0 | Local .NET 8 run and the public baseline CI run. |
+| Private non-production release, backend | 1,410 | 0 | 10 | Backend suite on the released revision. The opt-in live storage tests were skipped. |
+| Same release, web frontend | 441 | 0 | 0 | Web frontend suite across 39 test files. |
+| Later private local candidate, backend only | 1,441 | 0 | 11 | Separate, unmerged test work. The opt-in live checks were skipped. |
 
-Each excerpt therefore answers four questions:
+The two suites from the same release total **1,851 passed of 1,861**. The local candidate reran overlapping backend coverage. Neither the candidate nor the public slice is added to the release total. These are test outcomes, not counts of customers, deployments or operating scenarios.
 
-1. **What architectural claim is being made?**
-2. **What implementation mechanism supports it?**
-3. **What broader engineering concern does it demonstrate?**
-4. **What does the evidence *not* prove?**
-
-That final question is deliberate. Evidence is stronger when its boundary is explicit.
+| Capability | Evidence status |
+|---|---|
+| [Service commitment administration](../case-studies/service-commitments.md) | Implemented and tested across the protected API and operator UI. |
+| Running build and catalogue | Deployed and verified in non-production. The loaded build matched the release and the catalogue assertions passed. |
+| Newer intake pilot | Implemented and tested. Disabled by default in source. Live configuration and end-to-end operation remain unverified. |
+| Broader workflow changes | Proposed. Operational acceptance remains open. |

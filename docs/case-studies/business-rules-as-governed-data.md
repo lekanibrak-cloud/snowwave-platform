@@ -1,35 +1,9 @@
-# Business Rules as Governed Data
+# Giving an exception reason a consistent meaning
 
-## Established concepts
-Reference-data governance, versioning, compatibility, policy/rule metadata, and lifecycle management are established software and data-management practices.
+An audit of the Business Exceptions workflow found that driver and backend vocabularies had drifted. A label a driver could select did not always correspond to a reason the service understood. An operator reading the resulting record needed to know what had actually been observed.
 
-## Snowwave-specific discovery
-Snowwave's Business Exceptions work exposed a concrete internal problem: reason vocabulary and semantics had drifted across layers. At audit time, multiple hard-coded vocabularies existed without a single shared authority, and some driver declarations did not align with backend vocabulary.
+I moved the shared vocabulary into a backend-owned, versioned catalogue. Updating a reason’s meaning now has a history, and clients can use a common definition. The catalogue addresses the meaning of a reported exception. The separate service-policy administration workflow addresses the retailer’s service commitment.
 
-The response was not merely to move strings into one file. Snowwave modelled reason codes as backend-owned business documents carrying behavior:
+Earlier non-production releases exposed problems seeding the catalogue. On November 25, 2026, the non-production release completed its post-deployment catalogue assertions.
 
-```text
-code
-+ appliesTo
-+ declarableBy
-+ countsAsAttempt
-+ requiresEvidence
-+ terminalForFlow
-+ defaultOwnership
-+ lifecycle state
-+ supersedes / history
-+ legacy compatibility
-```
-
-The catalogue therefore governs what a reason **means**, not just how it is spelled.
-
-## Snowwave claim
-**I converted measured application-layer vocabulary drift into a versioned backend-owned business-rule authority and used projections/gates to consume it.**
-
-That does not claim invention of reference data, versioning, policy-as-data, or lifecycle governance.
-
-## Evidence
-See `evidence/governance/reason-code-catalogue.sanitized.md`.
-
-## Runtime caveat
-The implementation and release seed/assert logic exist, but the private snapshot reviewed for this portfolio recorded the release-time seed/assert path as merged without a fully green non-production release result. The portfolio therefore does not convert implementation into unverified runtime convergence.
+[Catalogue evidence](../../evidence/governance/reason-code-catalogue.sanitized.md) · [Service commitment case](service-commitments.md)

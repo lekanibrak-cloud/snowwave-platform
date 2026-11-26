@@ -15,29 +15,10 @@ This timeline is deliberately conservative. It records what repository history s
 | Aug 7 audit snapshot | Business Exception domain audit | Multiple reason vocabularies and concrete client/backend/policy drift were measured. |
 | Aug 14 | `42203195` — Reason Code Catalogue infrastructure | Reason semantics moved toward a versioned backend authority. |
 | Aug 31 | `33fefea9` — seed/assert catalogue on deploy + ADR-069 | Catalogue existence became a deployment invariant; declaration-door security ordering was documented/enforced. |
+| November | Versioned service-policy administration and operator dashboard | Operators gained revision history, protection against stale edits and a way to confirm uncertain saves. |
+| Nov 25 | Private non-production release | The loaded build matched the release and catalogue assertions passed. A newer intake pilot shipped in the build with a disabled source default. |
+| Nov 25, later local verification | Backend tests on an unmerged candidate | A larger local suite ran. Live pilot operation remained unverified. |
 
-## Interpretation
+Ingestion and recovery evolved together. Tracking whether work completed exposed a second question, whether the resulting business decision was valid for the operator, retailer and service commitment involved.
 
-The evidence does **not** support the simplistic sequence:
-
-```text
-finish ingestion → invent recovery → invent exceptions → invent catalogue
-```
-
-The supported story is more interesting:
-
-```text
-ingestion and recovery co-evolve
-        ↓
-recovery semantics become stricter
-        ↓
-technical recovery is separated from business exception handling
-        ↓
-business-exception modelling exposes vocabulary drift
-        ↓
-reason semantics become governed data
-        ↓
-governed semantics create deployment and security invariants
-```
-
-That is the narrative used throughout this public portfolio.
+[Read the service commitment case](../case-studies/service-commitments.md) · [Compare the verification scopes](TECHNICAL-EVIDENCE-INDEX.md)
