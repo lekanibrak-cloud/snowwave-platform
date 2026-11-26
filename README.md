@@ -2,6 +2,8 @@
 
 **Olalekan Ibrahim · Toronto, Canada · Solutions, cloud and integration engineering**
 
+**Business → Operations → Engineering → Architecture**
+
 A retailer uploads a parcel manifest. The upload succeeds, but a row fails downstream. What should the operations team tell the retailer? I built Snowwave, a non-production Azure platform for last-mile operations, to explore questions like this one. A useful answer has to distinguish receiving a file, processing its contents and confirming the business outcome.
 
 My starting point was operational. Managing purchasing and inventory in my family’s agricultural business in Nigeria taught me how one team’s incomplete information becomes another team’s problem. Studying International Business Management at Niagara College Toronto and working in parcel sorting, scanning and loading in Toronto gave me a way to frame the engineering question. Which decision does someone need to make, and what evidence would let them make it?
@@ -15,7 +17,24 @@ My starting point was operational. Managing purchasing and inventory in my famil
 | Who can change a service commitment, and what if two people edit it? | Authorize the change, retain its revision and surface competing edits. | [Service commitment case](docs/case-studies/service-commitments.md) |
 | Which build is actually answering requests? | Compare the running application’s build identity with the intended release. | [Deployment investigation](docs/case-studies/deployment-runtime-truth.md) |
 
+## Core technology stack
+
+- **Private platform.** The C# Azure Functions app targets .NET 8, and its backend tests run on .NET 9. The platform uses Azure API Management, Entra ID, Blob Storage, Cosmos DB and Service Bus, with React for the operator UI and Bicep and GitHub Actions for delivery.
+- **Public ingestion slice.** The C# project and its nine xUnit tests target .NET 8. The tests run locally with test doubles.
+
 ## Architecture at a glance
+
+The retailer ingestion path shows where an external request becomes asynchronous work and where an operator can find its progress.
+
+```mermaid
+flowchart TD
+    retailer["Retailer system"] --> gateway["Azure API Management"]
+    gateway --> workers["Azure Functions"]
+    workers -->|Retain uploaded file| blob["Blob Storage"]
+    workers -->|Record job progress| cosmos["Cosmos DB"]
+    workers -->|Publish parcel work| bus["Service Bus"]
+    bus --> processing["Parcel processing"]
+```
 
 | Responsibility | How Snowwave handles it |
 |---|---|
@@ -56,6 +75,10 @@ The tests exercise the slice with test doubles, including a worker losing a conc
 ## Verification snapshot · November 25, 2026
 
 The private non-production release recorded **1,851 passed, 0 failed and 10 skipped** across the backend and web frontend. The public nine are a separate suite. The evidence index breaks out the release counts and a subsequent local-only backend result. [Technical evidence index](docs/evidence/TECHNICAL-EVIDENCE-INDEX.md)
+
+## Transferable engineering
+
+Logistics is Snowwave’s domain. The same questions arise when an order moves from a sales system to a fulfilment partner. What did the partner accept? Who can correct it? How will an operator know that a retry succeeded? These questions guide how I design business-system integrations, automate workflows and verify cloud solutions.
 
 ## How I work
 
